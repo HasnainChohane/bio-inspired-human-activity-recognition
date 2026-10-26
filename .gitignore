@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+models/*.joblib
+outputs/*.csv
+outputs/*.json
+uci_har_download.zip
+.DS_Store

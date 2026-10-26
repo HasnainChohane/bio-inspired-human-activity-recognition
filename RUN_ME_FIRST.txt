@@ -1,0 +1,26 @@
+ACTIVITYSENSE — QUICK START
+
+1. Extract this folder.
+2. Open the folder in VS Code.
+3. Open Terminal > New Terminal.
+4. Run these commands:
+
+   python -m venv .venv
+   .\.venv\Scripts\Activate.ps1
+   pip install -r requirements.txt
+   python app.py
+
+The first run downloads the official UCI HAR dataset automatically.
+You need an internet connection for the first run.
+
+5. After training finishes, launch the dashboard:
+
+   streamlit run dashboard.py
+
+6. Open the local web address printed in the terminal.
+
+Important:
+- Do not claim FALL detection from this dataset. UCI HAR has no FALL label.
+- Report only the real metrics printed by your own run.
+- The CSV prediction feature expects the 561 preprocessed feature columns,
+  not six raw accelerometer/gyroscope values.
