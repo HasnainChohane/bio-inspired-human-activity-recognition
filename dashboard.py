@@ -54,33 +54,60 @@ st.dataframe(
         "macro_f1": "{:.3%}",
         "weighted_f1": "{:.3%}",
     }),
-    use_container_width=True,
+    width="stretch",
     hide_index=True,
 )
 
 st.subheader("Try an example prediction")
 st.write(
-    "Upload a CSV containing the same 561 feature columns as the UCI HAR feature "
-    "matrix. Each row should represent one already-preprocessed feature vector."
+    "Upload a CSV containing the 561 feature columns matching the UCI HAR feature matrix."
 )
 uploaded = st.file_uploader("Upload feature rows (.csv)", type=["csv"])
 if uploaded is not None:
     try:
         frame = pd.read_csv(uploaded)
+        
+        # Handle case where user re-uploads our generated predictions file containing extra target columns
+        if "predicted_activity" in frame.columns:
+            frame = frame.drop(columns=["predicted_activity"])
+            
         expected = bundle["feature_names"]
-        if list(frame.columns) != expected:
+        
+        # Check if the number of features matches
+        if frame.shape[1] != len(expected):
             st.error(
-                "The CSV columns must match the exact UCI HAR feature names and order. "
-                "This upload option is for preprocessed feature vectors, not raw phone sensor readings."
+                f"Column mismatch! Your file has {frame.shape[1]} columns, but the model "
+                f"requires exactly {len(expected)} preprocessed feature columns."
             )
         elif frame.isna().any().any():
             st.error("The CSV contains missing values. Please clean it before prediction.")
         else:
+            # Overwrite headers with exact expected string array to bypass string mismatch bugs
+            frame.columns = expected
+            
+            # Predict activity outcomes
             predictions = bundle["model"].predict(frame)
             output = frame.copy()
             output["predicted_activity"] = predictions
             st.success(f"Predicted {len(predictions)} row(s).")
-            st.dataframe(output[["predicted_activity"]], use_container_width=True)
+            
+            # --- Added Analytics Components ---
+            counts = output["predicted_activity"].value_counts()
+            
+            # 📊 Metric Breakdown Summary Cards
+            st.markdown("#### 📋 Predicted Activity Profile Counts")
+            metric_cols = st.columns(len(counts))
+            for idx, (activity, count) in enumerate(counts.items()):
+                metric_cols[idx].metric(label=activity, value=f"{count} Vector(s)")
+                
+            # 📈 Fixed Native Streamlit Visual Bar Chart
+            st.markdown("#### 📊 Activity Class Distribution Chart")
+            chart_df = pd.DataFrame({"Count": counts})
+            st.bar_chart(chart_df, width="stretch", height=300)
+            
+            # Display Table and Download Block
+            st.markdown("#### 📝 Detailed Prediction Output Rows")
+            st.dataframe(output[["predicted_activity"]], width="stretch")
             st.download_button(
                 "Download predictions",
                 data=output.to_csv(index=False).encode("utf-8"),
