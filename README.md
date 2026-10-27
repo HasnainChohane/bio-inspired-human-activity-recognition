@@ -1,4 +1,13 @@
 # ActivitySense: Human Activity Recognition with Smartphone Sensors
+<h1 style="font-size: 50px; font-weight: bold; color: #d97706; margin-bottom: 0;">
+  🛠️ UNDER DEVELOPMENT
+</h1>
+<blockquote style="font-size: 20px; font-style: italic; color: #6b7280; margin-top: 5px;">
+  Please note: Features are being actively updated and things may break.
+</blockquote>
+
+
+
 
 **A reproducible machine-learning project for recognizing human activities from smartphone motion data.**
 
