@@ -1,14 +1,14 @@
-# ActivitySense: Human Activity Recognition with Smartphone Sensors
-<h1 style="font-size: 50px; font-weight: bold; color: #d97706; margin-bottom: 0;">
+
+<h1><h1 style="font-size: 50px; font-weight: bold; color: #d97706; margin-bottom: 0;">
   🛠️ UNDER DEVELOPMENT
 </h1>
 <blockquote style="font-size: 20px; font-style: italic; color: #6b7280; margin-top: 5px;">
   Please note: Features are being actively updated and things may break.
 </blockquote>
+</h1>
 
 
-
-
+# ActivitySense: Human Activity Recognition with Smartphone Sensors
 **A reproducible machine-learning project for recognizing human activities from smartphone motion data.**
 
 ActivitySense trains and evaluates a majority-class baseline, Random Forest, and RBF Support Vector Machine using the official train/test split of the UCI Human Activity Recognition Using Smartphones dataset. It includes a command-line experiment and a Streamlit dashboard.
